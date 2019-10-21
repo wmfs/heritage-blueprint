@@ -30,6 +30,10 @@
     "@semantic-release/npm"
   ],
   "publish": [
+    {
+      "path": "@semantic-release/exec",
+      "cmd": "./version_blueprint"
+    },
     "@semantic-release/npm",
     "@semantic-release/github"
   ],
