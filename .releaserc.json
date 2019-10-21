@@ -23,6 +23,10 @@
       "path": "@semantic-release/git",
       "assets": ["CHANGELOG.md"]
     },
+    {
+      "path": "@semantic-release/exec",
+      "cmd": "echo 'export VERSION=${nextRelease.version}' > .version"
+    },
     "@semantic-release/npm"
   ],
   "publish": [
