@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+. .version
+git config --global user.name "wmfs-bot"
+git config --global user.email "tymly@wmfs.net"
+git remote set-url origin https://wmfs-bot:${GH_TOKEN}@github.com/heritage-blueprint.git
+git checkout master
+sudo apt-get install jq
+sudo jq --arg version "$VERSION" '.version=$VERSION' blueprint.json > blueprint_edit.json && mv blueprint_edit.json blueprint.json
+git add .
+git commit -m 'update blueprint version $VERSION [skip ci]'
