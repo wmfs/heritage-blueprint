@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/wmfs/heritage-blueprint/compare/v1.1.2...v1.1.3) (2019-10-21)
+
+
+### 🐛 Bug Fixes
+
+* versioning test ([ace7ceb](https://github.com/wmfs/heritage-blueprint/commit/ace7ceb892cd15ac93446c4bf1a6ba283ef00682))
+
 ## [1.1.2](https://github.com/wmfs/heritage-blueprint/compare/v1.1.1...v1.1.2) (2019-10-21)
 
 
