@@ -1,9 +1,9 @@
 {
-  "name": "@wmfs/heritage-blueprint",
+  "name": "test-blueprint",
   "version": "0.0.0-semantically-released",
-  "description": "Tymly blueprint to support heritage data",
+  "description": "Test blueprint for versioning test",
   "author": "West Midlands Fire Service",
-  "homepage": "https://github.com/wmfs/heritage-blueprint#readme",
+  "homepage": "https://github.com/exactlyaron/test-blueprint/blob/master/README.md",
   "keywords": [
     "tymly",
     "blueprint",
@@ -14,10 +14,10 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wmfs/heritage-blueprint.git"
+    "url": "https://github.com/exactlyaron/test-blueprint.git"
   },
   "bugs": {
-    "url": "https://github.com/wmfs/heritage-blueprint/issues"
+    "url": "https://github.com/exactlyaron/test-blueprint/issues"
   },
   "dependencies": {},
   "devDependencies": {
