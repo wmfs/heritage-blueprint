@@ -83,7 +83,7 @@ describe('Heritage tests', function () {
 
   it('Should be clean up the database', function (done) {
     client.query(
-      `DELETE FROM wmfs.heritage WHERE uprn::text LIKE '123456789%';`,
+      'DELETE FROM wmfs.heritage WHERE uprn::text LIKE \'123456789%\';',
       function (err, result) {
         if (err) {
           done(err)
