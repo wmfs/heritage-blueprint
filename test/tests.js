@@ -24,8 +24,8 @@ describe('Heritage tests', function () {
     }
   })
 
-  it('should startup tymly', function (done) {
-    tymly.boot(
+  it('startup tymly', async () => {
+    const tymlyServices = await tymly.boot(
       {
         pluginPaths: [
           require.resolve('@wmfs/tymly-pg-plugin'),
@@ -35,81 +35,57 @@ describe('Heritage tests', function () {
           path.resolve(__dirname, './../')
         ],
         config: {}
-      },
-      function (err, tymlyServices) {
-        expect(err).to.eql(null)
-        tymlyService = tymlyServices.tymly
-        statebox = tymlyServices.statebox
-        client = tymlyServices.storage.client
-        done()
       }
     )
+
+    tymlyService = tymlyServices.tymly
+    statebox = tymlyServices.statebox
+    client = tymlyServices.storage.client
   })
 
-  it('should execute importingCsvFiles', function (done) {
-    statebox.startExecution(
+  it('execute importingCsvFiles', async () => {
+    const executionDescription = await statebox.startExecution(
       {
         sourceDir: path.resolve(__dirname, './fixtures/input')
       },
       STATE_MACHINE_NAME,
       {
         sendResponse: 'COMPLETE'
-      },
-      function (err, executionDescription) {
-        expect(err).to.eql(null)
-        expect(executionDescription.status).to.eql('SUCCEEDED')
-        expect(executionDescription.currentStateName).to.equal('ImportingCsvFiles')
-        done()
       }
     )
+
+    expect(executionDescription.status).to.eql('SUCCEEDED')
+    expect(executionDescription.currentStateName).to.equal('ImportingCsvFiles')
   })
 
-  it('Should be the correct data in the database', function (done) {
-    client.query(
-      'select uprn, address, info from wmfs.heritage order by uprn;',
-      function (err, result) {
-        if (err) {
-          done(err)
-        } else {
-          expect(result.rowCount).to.eql(13)
-          expect(result.rows[0].uprn).to.eql('1234567890')
-          expect(result.rows[4].uprn).to.eql('1234567894')
-          expect(result.rows[10].uprn).to.eql('12345678910')
-          done()
-        }
-      }
+  it('verify data in the table', async () => {
+    const result = await client.query(
+      'select uprn, address, info from wmfs.heritage order by uprn;'
     )
+
+    expect(result.rowCount).to.eql(13)
+    expect(result.rows[0].uprn).to.eql('1234567890')
+    expect(result.rows[4].uprn).to.eql('1234567894')
+    expect(result.rows[10].uprn).to.eql('12345678910')
   })
 
-  it('Should be clean up the database', function (done) {
-    client.query(
-      'DELETE FROM wmfs.heritage WHERE uprn::text LIKE \'123456789%\';',
-      function (err, result) {
-        if (err) {
-          done(err)
-        } else {
-          expect(result.rowCount).to.eql(13)
-          done()
-        }
-      }
+  it('clean up the table', async () => {
+    const result = await client.query(
+      'DELETE FROM wmfs.heritage WHERE uprn::text LIKE \'123456789%\';'
     )
+
+    expect(result.rowCount).to.eql(13)
   })
 
-  it('Should find a now empty database', function (done) {
-    client.query(
-      'select * from wmfs.heritage;',
-      function (err, result) {
-        if (err) {
-          done(err)
-        } else {
-          expect(result.rows).to.eql([])
-          done()
-        }
-      }
+  it('verify empty table', async () => {
+    const result = await client.query(
+      'select * from wmfs.heritage;'
     )
+
+    expect(result.rows).to.eql([])
   })
 
-  it('should shutdown Tymly', async () => {
+  after('should shutdown Tymly', async () => {
     await tymlyService.shutdown()
   })
 })
